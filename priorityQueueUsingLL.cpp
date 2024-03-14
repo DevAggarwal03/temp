@@ -14,50 +14,50 @@ class Node{
 
 class PriorityQue{
     public:
-    Node* head = NULL;
-    Node* tail = NULL;
-    int size;
+    Node* head;
+    Node* tail ;
+    int size ;
 
     PriorityQue(){
         this->size = 0;
+        this->head=NULL;
+        this->tail=NULL;
     }
 
     void push(int data){
         Node* newNode = new Node(data);
-        Node* temp1 = head;
-        Node* temp2 = temp1->next;
+        // Node* temp1 = head;
+        // Node* temp2 = head->next;
         if(head == NULL){
             head = newNode;
             tail = newNode;
         }
         else if(data < head->data){
-            Node* temp = head;
-            newNode->next = temp;
+            newNode->next = head;
             head = newNode;
-            // size++;
         }
         else if(data >= tail->data){
-            Node* temp = tail;
-            temp->next = newNode;
+            tail->next = newNode;
             tail = newNode;
         }
         else{
-            while(temp2 != NULL){
+            Node* temp1=head;
+            Node* temp2=head->next;
+            while(temp2!= NULL){
                 if((temp1->data <= data) && (temp2->data > data)){
-                    newNode->next = temp2;
                     temp1->next = newNode;
+                    newNode->next = temp2;
+                    return;
                 }
+                temp1 = temp2;
                 temp2 = temp2->next;
-                temp1 = temp1->next;
             }
         }
     }
-
-    int pop(){
-        int val = -1;
+    void pop(){
         if(head == NULL){
             cout<<"que is already empty"<<endl;
-            return -1;
+            return ;
         }
         else{
             Node* temp = head;
@@ -66,46 +66,39 @@ class PriorityQue{
             }
             tail = temp;
             temp = temp->next;
-            val = temp->data;
-            tail->next = NULL;
             delete temp;
         }
-        size = size-1;
-        return val;
     }
-
     bool isEmpty(){
-        if(size == 0){
+        if(head == NULL){
             return true;
         }
         else{
             return false;
         }
     }
-
     int peek(){
-        return tail->data;   
-    }
-
-    void printQue(){
-        Node* temp = head;
-        while(temp != tail->next){
-            cout<<temp->data<<" ";
-            temp = temp->next;
+        if(tail==NULL){
+            cout<<"Ntg to return";
+            return -1;
         }
+        return tail->data;   
     }
 };
 
 int main(){
 
-    PriorityQue que;
-    que.push(23);
-    que.push(55);
-    que.push(12);
-    que.push(24);
-    que.push(88);
+    PriorityQue* val=new PriorityQue();
+    val->push(5);
+    val->push(9);
+    val->push(53);
+    val->push(8);
+    val->push(12);
+    val->pop();
     
-    que.printQue();
+    cout<<val->peek();
 
-   return 0;
+    val->pop();
+
+    cout<<val->peek();
 }
