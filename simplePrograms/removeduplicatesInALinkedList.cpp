@@ -45,7 +45,23 @@ int linkedListLength(Node* &head){
 }
 
 void deleteDuplicates(Node* &head){
-    
+    Node *ptr1, *ptr2, *dup;
+    ptr1 = head;
+    while(ptr1 != NULL && ptr1->next != NULL){
+        ptr2 = ptr1;
+
+        while(ptr2->next != NULL){
+            if(ptr1 == ptr2->next){
+                dup = ptr2->next;
+                ptr2->next = ptr2->next->next;
+                delete dup;
+            }
+            else{
+                ptr2 = ptr2->next;
+            }
+        }
+        ptr1 = ptr1->next;
+    }
 }
 
 int main(){
@@ -61,6 +77,12 @@ int main(){
     insertAtHead(head, 2);
     insertAtHead(head, 23);
     insertAtHead(head, 66);
+    cout<<"before: ";
+    printInOrder(head);
+
+    deleteDuplicates(head);
+
+    cout<<"after: ";
     printInOrder(head);
     
 
